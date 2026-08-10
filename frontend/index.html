@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAR Aircraft Detector</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="scope-lines" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">◎</span>
+      <span class="brand-name">SAR<span class="brand-accent">/</span>AIRCRAFT</span>
+    </div>
+    <div class="model-tag">YOLOv8n · INT8 · 6 classes</div>
+  </div>
+</header>
+
+<main class="stage">
+
+  <section class="intro">
+    <h1>Detect aircraft in SAR imagery</h1>
+    <p>Upload a Synthetic Aperture Radar frame. The quantized model scans it locally on this server and returns bounding boxes for six commercial airframes.</p>
+  </section>
+
+  <section class="panel">
+
+    <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Upload a SAR image">
+      <input id="fileInput" type="file" accept="image/*" hidden />
+      <div class="dropzone-content" id="dropzoneContent">
+        <span class="dropzone-icon">◇</span>
+        <p class="dropzone-text">Drop a SAR image here, or click to browse</p>
+        <p class="dropzone-sub">JPG or PNG · up to 15MB</p>
+      </div>
+    </div>
+
+    <div id="workArea" class="work-area hidden">
+      <div class="canvas-wrap">
+        <canvas id="canvas"></canvas>
+        <div id="sweep" class="sweep hidden">
+          <div class="sweep-ring r1"></div>
+          <div class="sweep-ring r2"></div>
+          <div class="sweep-ring r3"></div>
+          <div class="sweep-arm"></div>
+        </div>
+      </div>
+
+      <div class="results" id="results">
+        <div class="results-head">
+          <span>DETECTIONS</span>
+          <span id="resultsCount">—</span>
+        </div>
+        <ul id="resultsList" class="results-list"></ul>
+      </div>
+    </div>
+
+    <p id="statusLine" class="status-line"></p>
+
+    <button id="resetBtn" class="reset-btn hidden">Scan another image</button>
+
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
