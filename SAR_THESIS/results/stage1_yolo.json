@@ -1,0 +1,90 @@
+{
+  "yolov8n": {
+    "model": "yolov8n",
+    "weights": "/content/SAR_RUN/models/yolov8n_best.pt",
+    "epochs": 50,
+    "imgsz": 640,
+    "vram_peak_mb": 1899.9,
+    "size_mb": 5.95,
+    "complexity": {
+      "total_params": 4927454,
+      "trainable_params": 0,
+      "total_macs": 4044656000,
+      "gflops_approx": 8.09
+    },
+    "latency": {
+      "fps": 127.0,
+      "p50_ms": 7.75,
+      "p95_ms": 8.54,
+      "p99_ms": 9.75,
+      "mean_ms": 7.87,
+      "std_ms": 0.44,
+      "n": 60
+    },
+    "eval": {
+      "n_test": 455,
+      "accuracy": 0.8242,
+      "precision": 0.8229,
+      "recall": 0.8242,
+      "f1": 0.8229,
+      "f1_95ci": [
+        0.7868,
+        0.8571
+      ],
+      "map50": 0.8167,
+      "map50_95": 0.8167,
+      "map50_95_note": "full-image bbox: IoU\u22611.0 so mAP@0.5\u2261mAP@0.5:0.95 \u2014 valid metric caveat to state in thesis \u00a74.3",
+      "ece": 0.0323,
+      "per_class": {
+        "A220": {
+          "precision": 0.6911764705882353,
+          "recall": 0.6714285714285714,
+          "f1-score": 0.6811594202898551,
+          "support": 70.0,
+          "AP": 0.6568,
+          "n_pos": 70
+        },
+        "A320321": {
+          "precision": 0.6986301369863014,
+          "recall": 0.6710526315789473,
+          "f1-score": 0.6845637583892618,
+          "support": 76.0,
+          "AP": 0.6544,
+          "n_pos": 76
+        },
+        "A330": {
+          "precision": 0.9090909090909091,
+          "recall": 0.9090909090909091,
+          "f1-score": 0.9090909090909091,
+          "support": 77.0,
+          "AP": 0.9169,
+          "n_pos": 77
+        },
+        "ARJ21": {
+          "precision": 0.9166666666666666,
+          "recall": 0.8571428571428571,
+          "f1-score": 0.8859060402684564,
+          "support": 77.0,
+          "AP": 0.8741,
+          "n_pos": 77
+        },
+        "Boeing737": {
+          "precision": 0.8414634146341463,
+          "recall": 0.8625,
+          "f1-score": 0.8518518518518519,
+          "support": 80.0,
+          "AP": 0.8686,
+          "n_pos": 80
+        },
+        "Boeing787": {
+          "precision": 0.8674698795180723,
+          "recall": 0.96,
+          "f1-score": 0.9113924050632911,
+          "support": 75.0,
+          "AP": 0.9292,
+          "n_pos": 75
+        }
+      }
+    }
+  }
+}

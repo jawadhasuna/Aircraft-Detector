@@ -1,0 +1,296 @@
+{
+  "dataset": {
+    "n_total": 3032,
+    "n_train": 2122,
+    "n_val": 455,
+    "n_test": 455,
+    "n_classes": 6,
+    "classes": [
+      "A220",
+      "A320321",
+      "A330",
+      "ARJ21",
+      "Boeing737",
+      "Boeing787"
+    ],
+    "imbalance_ratio": 1.14,
+    "cls_stats": {
+      "A220": {
+        "n": 464,
+        "mean_intensity": 17.12,
+        "std_intensity": 10.92
+      },
+      "A320321": {
+        "n": 510,
+        "mean_intensity": 14.58,
+        "std_intensity": 7.69
+      },
+      "A330": {
+        "n": 512,
+        "mean_intensity": 12.4,
+        "std_intensity": 9.01
+      },
+      "ARJ21": {
+        "n": 514,
+        "mean_intensity": 13.5,
+        "std_intensity": 7.72
+      },
+      "Boeing737": {
+        "n": 528,
+        "mean_intensity": 15.99,
+        "std_intensity": 7.7
+      },
+      "Boeing787": {
+        "n": 504,
+        "mean_intensity": 13.79,
+        "std_intensity": 10.53
+      }
+    }
+  },
+  "yolov8n": {
+    "model": "yolov8n",
+    "weights": "/content/SAR_RUN/models/yolov8n_best.pt",
+    "epochs": 50,
+    "imgsz": 640,
+    "vram_peak_mb": 1899.9,
+    "size_mb": 5.95,
+    "complexity": {
+      "total_params": 4927454,
+      "trainable_params": 0,
+      "total_macs": 4044656000,
+      "gflops_approx": 8.09
+    },
+    "latency": {
+      "fps": 127.0,
+      "p50_ms": 7.75,
+      "p95_ms": 8.54,
+      "p99_ms": 9.75,
+      "mean_ms": 7.87,
+      "std_ms": 0.44,
+      "n": 60
+    },
+    "n_test": 455,
+    "accuracy": 0.8242,
+    "precision": 0.8229,
+    "recall": 0.8242,
+    "f1": 0.8229,
+    "f1_95ci": [
+      0.7868,
+      0.8571
+    ],
+    "map50": 0.8167,
+    "map50_95": 0.8167,
+    "map50_95_note": "full-image bbox: IoU\u22611.0 so mAP@0.5\u2261mAP@0.5:0.95 \u2014 valid metric caveat to state in thesis \u00a74.3",
+    "ece": 0.0323,
+    "per_class": {
+      "A220": {
+        "precision": 0.6911764705882353,
+        "recall": 0.6714285714285714,
+        "f1-score": 0.6811594202898551,
+        "support": 70.0,
+        "AP": 0.6568,
+        "n_pos": 70
+      },
+      "A320321": {
+        "precision": 0.6986301369863014,
+        "recall": 0.6710526315789473,
+        "f1-score": 0.6845637583892618,
+        "support": 76.0,
+        "AP": 0.6544,
+        "n_pos": 76
+      },
+      "A330": {
+        "precision": 0.9090909090909091,
+        "recall": 0.9090909090909091,
+        "f1-score": 0.9090909090909091,
+        "support": 77.0,
+        "AP": 0.9169,
+        "n_pos": 77
+      },
+      "ARJ21": {
+        "precision": 0.9166666666666666,
+        "recall": 0.8571428571428571,
+        "f1-score": 0.8859060402684564,
+        "support": 77.0,
+        "AP": 0.8741,
+        "n_pos": 77
+      },
+      "Boeing737": {
+        "precision": 0.8414634146341463,
+        "recall": 0.8625,
+        "f1-score": 0.8518518518518519,
+        "support": 80.0,
+        "AP": 0.8686,
+        "n_pos": 80
+      },
+      "Boeing787": {
+        "precision": 0.8674698795180723,
+        "recall": 0.96,
+        "f1-score": 0.9113924050632911,
+        "support": 75.0,
+        "AP": 0.9292,
+        "n_pos": 75
+      }
+    }
+  },
+  "quantization": {
+    "fp32": {
+      "label": "FP32 (baseline)",
+      "size_mb": 5.95,
+      "latency": {
+        "fps": 126.4,
+        "p50_ms": 7.77,
+        "p95_ms": 8.25,
+        "p99_ms": 10.59,
+        "mean_ms": 7.91,
+        "std_ms": 0.58,
+        "n": 60
+      },
+      "map50": 0.8167,
+      "map50_drop": 0.0,
+      "fps_gain": 1.0,
+      "compression_ratio": 1.0
+    },
+    "fp16": {
+      "label": "FP16 (half-precision)",
+      "size_mb": 2.98,
+      "latency": {
+        "fps": 121.6,
+        "p50_ms": 7.85,
+        "p95_ms": 10.46,
+        "p99_ms": 12.07,
+        "mean_ms": 8.22,
+        "std_ms": 0.97,
+        "n": 60
+      },
+      "map50": 0.8167,
+      "map50_drop": 0.0,
+      "fps_gain": 0.962,
+      "compression_ratio": 2.0
+    },
+    "int8": {
+      "label": "INT8 ONNX (symmetric PTQ)",
+      "size_mb": 3.2,
+      "latency": {
+        "fps": 1.4,
+        "p50_ms": 595.12,
+        "p95_ms": 1138.62,
+        "p99_ms": 1176.13,
+        "mean_ms": 695.75,
+        "std_ms": 201.76,
+        "n": 60
+      },
+      "map50": 0.7922,
+      "map50_drop": 0.0245,
+      "fps_gain": 0.011,
+      "compression_ratio": 1.86
+    },
+    "wilcoxon_fp32_vs_fp16": {
+      "test": "wilcoxon_signed_rank",
+      "statistic": 204.0,
+      "p_value": 0.569858,
+      "significant_at_0.05": false,
+      "note": "FP32 vs FP16 latency difference is NOT statistically significant"
+    }
+  },
+  "rtdetr_r18": {
+    "weights": "/content/SAR_RUN/rtdetr_runs/rtdetr-l_sar/weights/best.pt",
+    "vram_peak_mb": 3702.0,
+    "size_mb": 63.16,
+    "complexity": {
+      "total_params": 55327244,
+      "trainable_params": 0,
+      "total_macs": 47886918652,
+      "gflops_approx": 95.77
+    },
+    "test_f1": 0.5583,
+    "map50": 0.5435,
+    "ece": 0.21601280511080567,
+    "latency": {
+      "fps": 20.3,
+      "p50_ms": 48.96,
+      "p95_ms": 53.33,
+      "p99_ms": 55.26,
+      "mean_ms": 49.38,
+      "std_ms": 1.91,
+      "n": 30
+    }
+  },
+  "comparison_table": [
+    {
+      "model": "YOLOv8n FP32",
+      "params_M": 4.93,
+      "gflops": 8.09,
+      "size_mb": 5.95,
+      "map50": 0.8167,
+      "f1": 0.8229,
+      "ece": 0.0323,
+      "fps": 127.0,
+      "p95_ms": 8.54,
+      "compression_vs_fp32": null,
+      "map50_drop": null
+    },
+    {
+      "model": "YOLOv8n FP16",
+      "params_M": 0.0,
+      "gflops": null,
+      "size_mb": 2.98,
+      "map50": 0.8167,
+      "f1": 0.8229,
+      "ece": 0.0323,
+      "fps": 121.6,
+      "p95_ms": 10.46,
+      "compression_vs_fp32": 2.0,
+      "map50_drop": 0.0
+    },
+    {
+      "model": "YOLOv8n INT8",
+      "params_M": 0.0,
+      "gflops": null,
+      "size_mb": 3.2,
+      "map50": 0.8167,
+      "f1": 0.8229,
+      "ece": 0.0323,
+      "fps": 1.4,
+      "p95_ms": 1138.62,
+      "compression_vs_fp32": 1.86,
+      "map50_drop": 0.0245
+    },
+    {
+      "model": "RT-DETR-R18",
+      "params_M": 55.33,
+      "gflops": 95.77,
+      "size_mb": 63.16,
+      "map50": 0.5435,
+      "f1": 0.5583,
+      "ece": 0.21601280511080567,
+      "fps": 20.3,
+      "p95_ms": 53.33,
+      "compression_vs_fp32": null,
+      "map50_drop": null
+    }
+  ],
+  "meta": {
+    "generated_at": "2026-05-18T20:24:34.327195",
+    "runtime_min": 96.1,
+    "torch_version": "2.10.0+cu128",
+    "cuda_version": "12.8",
+    "gpu": "Tesla T4",
+    "drive_mirrored": true,
+    "cfg": {
+      "yolo_epochs": 50,
+      "yolo_imgsz": 640,
+      "yolo_batch": 16,
+      "yolo_patience": 20,
+      "cos_lr": true,
+      "run_vit": true,
+      "vit_epochs": 15,
+      "vit_batch": 4,
+      "run_quant": true,
+      "bench_n": 60,
+      "conf_thr": 0.25,
+      "iou_thr": 0.5,
+      "seed": 42
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "fp32": {
+    "label": "FP32 (baseline)",
+    "size_mb": 5.95,
+    "latency": {
+      "fps": 126.4,
+      "p50_ms": 7.77,
+      "p95_ms": 8.25,
+      "p99_ms": 10.59,
+      "mean_ms": 7.91,
+      "std_ms": 0.58,
+      "n": 60
+    },
+    "map50": 0.8167,
+    "map50_drop": 0.0,
+    "fps_gain": 1.0,
+    "compression_ratio": 1.0
+  },
+  "fp16": {
+    "label": "FP16 (half-precision)",
+    "size_mb": 2.98,
+    "latency": {
+      "fps": 121.6,
+      "p50_ms": 7.85,
+      "p95_ms": 10.46,
+      "p99_ms": 12.07,
+      "mean_ms": 8.22,
+      "std_ms": 0.97,
+      "n": 60
+    },
+    "map50": 0.8167,
+    "map50_drop": 0.0,
+    "fps_gain": 0.962,
+    "compression_ratio": 2.0
+  },
+  "int8": {
+    "label": "INT8 ONNX (symmetric PTQ)",
+    "size_mb": 3.2,
+    "latency": {
+      "fps": 1.4,
+      "p50_ms": 595.12,
+      "p95_ms": 1138.62,
+      "p99_ms": 1176.13,
+      "mean_ms": 695.75,
+      "std_ms": 201.76,
+      "n": 60
+    },
+    "map50": 0.7922,
+    "map50_drop": 0.0245,
+    "fps_gain": 0.011,
+    "compression_ratio": 1.86
+  },
+  "wilcoxon_fp32_vs_fp16": {
+    "test": "wilcoxon_signed_rank",
+    "statistic": 204.0,
+    "p_value": 0.569858,
+    "significant_at_0.05": false,
+    "note": "FP32 vs FP16 latency difference is NOT statistically significant"
+  }
+}

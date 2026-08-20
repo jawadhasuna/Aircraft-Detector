@@ -1,0 +1,25 @@
+{
+  "rtdetr_r18": {
+    "weights": "/content/SAR_RUN/rtdetr_runs/rtdetr-l_sar/weights/best.pt",
+    "vram_peak_mb": 3702.0,
+    "size_mb": 63.16,
+    "complexity": {
+      "total_params": 55327244,
+      "trainable_params": 0,
+      "total_macs": 47886918652,
+      "gflops_approx": 95.77
+    },
+    "test_f1": 0.5583,
+    "map50": 0.5435,
+    "ece": 0.21601280511080567,
+    "latency": {
+      "fps": 20.3,
+      "p50_ms": 48.96,
+      "p95_ms": 53.33,
+      "p99_ms": 55.26,
+      "mean_ms": 49.38,
+      "std_ms": 1.91,
+      "n": 30
+    }
+  }
+}
