@@ -32,10 +32,16 @@ image = (
         "fastapi[standard]==0.115.4",
         "python-multipart==0.0.12",
     )
-    # copy=True bakes these into the image layer so the container starts
-    # with everything already present (faster, more predictable cold starts)
+    # copy=True bakes the model into an image layer. It is 3.3MB, it never
+    # changes, and having it already present makes cold starts predictable.
     .add_local_file(HERE / "models" / "yolov8n_int8.onnx", MODEL_REMOTE_PATH, copy=True)
-    .add_local_dir(HERE / "frontend", ASSETS_REMOTE_PATH, copy=True)
+    # The frontend deliberately does NOT use copy=True. Image layers are
+    # cached, and a cached layer survives edits to the files inside it, which
+    # silently ships a stale UI - a one-line CSS change was served from a
+    # layer built 3 minutes earlier and no amount of redeploying dislodged it.
+    # As a runtime mount it is content-addressed, so it is always current, and
+    # 45KB of static assets costs nothing at container start.
+    .add_local_dir(HERE / "frontend", ASSETS_REMOTE_PATH)
     .add_local_python_source("detector")
 )
 
