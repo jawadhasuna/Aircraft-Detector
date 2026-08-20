@@ -91,7 +91,7 @@ body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 336px;
   grid-template-areas:
-    "intro  intro"
+    "intro  samples"
     "panel  samples";
   gap: 0 26px;
   align-items: start;
