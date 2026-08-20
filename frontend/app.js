@@ -40,7 +40,14 @@ dropzone.addEventListener("keydown", (e) => {
 );
 dropzone.addEventListener("drop", (e) => {
   const file = e.dataTransfer.files[0];
-  if (file) handleFile(file);
+  if (file) {
+    handleFile(file);
+    return;
+  }
+  // A drag that started inside the page carries no File, so the sample
+  // thumbnails hand over a URL and we fetch it back into one.
+  const src = e.dataTransfer.getData(SAMPLE_MIME);
+  if (src) loadSample(src, e.dataTransfer.getData("text/plain") || "sample");
 });
 
 fileInput.addEventListener("change", () => {
@@ -124,9 +131,14 @@ async function handleFile(file) {
 
 function drawImageOnly(img) {
   const maxW = 620;
-  const scale = Math.min(1, maxW / img.width);
-  canvas.width = img.width * scale;
-  canvas.height = img.height * scale;
+  // SAR chips in this dataset are 47-155px wide. Clamping the scale at 1x
+  // left them as postage stamps in a 620px panel with unreadable boxes, so
+  // small frames are now blown up, capped at 8x to stop them turning to mush.
+  const scale = Math.min(8, maxW / img.width);
+  canvas.width = Math.round(img.width * scale);
+  canvas.height = Math.round(img.height * scale);
+  // Past ~2x, smoothing turns radar speckle into porridge. Keep it crisp.
+  ctx.imageSmoothingEnabled = scale <= 2;
   ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 }
 
@@ -187,4 +199,37 @@ function renderResults(detections) {
 function setStatus(text, kind) {
   statusLine.textContent = text;
   statusLine.className = "status-line" + (kind ? " " + kind : "");
+}
+
+
+// ---------------------------------------------------------------------------
+// Sample library
+// ---------------------------------------------------------------------------
+const SAMPLE_MIME = "application/x-sar-sample";
+
+document.querySelectorAll(".sample").forEach((btn) => {
+  btn.addEventListener("click", () =>
+    loadSample(btn.dataset.src, btn.dataset.label)
+  );
+
+  btn.addEventListener("dragstart", (e) => {
+    e.dataTransfer.setData(SAMPLE_MIME, btn.dataset.src);
+    e.dataTransfer.setData("text/plain", btn.dataset.label);
+    e.dataTransfer.effectAllowed = "copy";
+    btn.classList.add("dragging");
+  });
+  btn.addEventListener("dragend", () => btn.classList.remove("dragging"));
+});
+
+async function loadSample(src, label) {
+  try {
+    setStatus("Loading " + label + "\u2026", "");
+    const res = await fetch(src);
+    if (!res.ok) throw new Error("Couldn't load that sample frame.");
+    const blob = await res.blob();
+    const name = src.split("/").pop() || "sample.jpg";
+    handleFile(new File([blob], name, { type: blob.type || "image/jpeg" }));
+  } catch (err) {
+    setStatus(err.message, "error");
+  }
 }

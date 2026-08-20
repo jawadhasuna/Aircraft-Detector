@@ -49,7 +49,7 @@ body {
 }
 
 .topbar-inner {
-  max-width: 900px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 18px 24px;
   display: flex;
@@ -85,9 +85,16 @@ body {
 }
 
 .stage {
-  max-width: 900px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 48px 24px 80px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 336px;
+  grid-template-areas:
+    "intro  intro"
+    "panel  samples";
+  gap: 0 26px;
+  align-items: start;
   position: relative;
   z-index: 1;
 }
@@ -311,4 +318,114 @@ body {
 .reset-btn:hover {
   border-color: var(--accent-dim);
   color: var(--accent);
+}
+
+.intro   { grid-area: intro; }
+.panel   { grid-area: panel; }
+.samples { grid-area: samples; }
+
+@media (max-width: 900px) {
+  .stage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "intro"
+      "panel"
+      "samples";
+    gap: 22px 0;
+  }
+}
+
+/* ===========================================================
+   Sample library
+   The page was one narrow column with a lot of dead space below
+   the fold. It is now a two-column grid: work on the left,
+   the sample shelf on the right, intro spanning both.
+   =========================================================== */
+.samples {
+  border: 1px solid var(--panel-border);
+  border-radius: 4px;
+  background: var(--panel);
+  padding: 16px 16px 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.samples-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  border-bottom: 1px solid var(--panel-border);
+  padding-bottom: 9px;
+}
+.samples-hint { color: var(--accent-dim); }
+
+.samples-note {
+  margin: 11px 0 16px;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+.sample-groups { display: grid; gap: 15px; }
+
+.sample-group-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0 0 7px;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--text);
+}
+
+.sample-swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+
+.sample-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.sample {
+  padding: 0;
+  border: 1px solid var(--panel-border);
+  border-radius: 3px;
+  background: #070a08;
+  aspect-ratio: 1;
+  overflow: hidden;
+  cursor: grab;
+  transition: border-color 0.15s ease, transform 0.1s ease;
+}
+.sample img {
+  width: 100%;
+  height: 100%;
+  /* contain, not cover - these chips are one aircraft each and cropping
+     would cut the wingtips off the thing you are meant to be looking at */
+  object-fit: contain;
+  display: block;
+}
+.sample:hover,
+.sample:focus-visible {
+  border-color: var(--accent);
+  outline: none;
+  transform: translateY(-1px);
+}
+.sample:active { cursor: grabbing; }
+.sample.dragging { opacity: 0.4; }
+
+@media (max-width: 900px) {
+  .samples { margin-top: 4px; }
+  .sample-row { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 }
