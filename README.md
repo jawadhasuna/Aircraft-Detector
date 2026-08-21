@@ -4,7 +4,7 @@
 
 \---
 
-Aircraft Detector identifies commercial aircraft in Synthetic Aperture Radar (SAR) imagery. SAR is a radar imaging technique that produces images through cloud, smoke, and darkness — conditions where optical cameras fail — which makes automated interpretation of it valuable but difficult, since SAR images look nothing like ordinary photographs.
+Aircraft Detector identifies commercial aircraft in Synthetic Aperture Radar (SAR) imagery. SAR is a radar  imaging technique that produces images through cloud, smoke, and darkness — conditions where optical cameras fail — which makes automated interpretation of it valuable but difficult, since SAR images look nothing like ordinary photographs.
 
 The model is a **YOLOv8n** network fine-tuned on the **SAR-ACD** dataset across six airframe classes: A220, A320/321, A330, ARJ21, Boeing 737, and Boeing 787. After training it was quantized to **INT8 ONNX** using dynamic weight-only quantization, reducing the model to **3.3 MB** and allowing it to run on CPU alone with no GPU required.
 
