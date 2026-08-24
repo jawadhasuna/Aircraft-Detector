@@ -1,6 +1,6 @@
 # Aircraft Detector
 
-### 🔗 [https://jawadhassanbusiness--sar-detector.modal.run](https://jawadhassanbusiness--sar-detector.modal.run)
+### 🔗 [https://aircraftdetect.vercel.app](https://aircraftdetect.vercel.app)
 
 \---
 

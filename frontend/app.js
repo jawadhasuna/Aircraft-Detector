@@ -1,3 +1,11 @@
+// The page is served from Vercel; inference runs on Modal, which scales to
+// zero. Same-origin when opened on the Modal URL directly, so local `modal
+// serve` still works without editing anything.
+const API_BASE =
+  location.hostname.endsWith("modal.run") || location.hostname === "localhost"
+    ? ""
+    : "https://jawadhassanbusiness--sar-detector.modal.run";
+
 const dropzone = document.getElementById("dropzone");
 const fileInput = document.getElementById("fileInput");
 const workArea = document.getElementById("workArea");
@@ -94,7 +102,10 @@ async function handleFile(file) {
     }, 4000);
 
     try {
-      const res = await fetch("/detect", { method: "POST", body: formData });
+      const res = await fetch(`${API_BASE}/detect`, {
+        method: "POST",
+        body: formData,
+      });
       clearTimeout(coldStartNotice);
       const data = await res.json();
 

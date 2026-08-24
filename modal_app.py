@@ -13,7 +13,7 @@ APP_NAME = "sar-aircraft-detector"
 
 HERE = Path(__file__).parent
 MODEL_REMOTE_PATH = "/model/yolov8n_int8.onnx"
-ASSETS_REMOTE_PATH = "/assets"
+FRONTEND_URL = "https://aircraftdetect.vercel.app"
 
 # ---------------------------------------------------------------------------
 # Container image
@@ -35,13 +35,6 @@ image = (
     # copy=True bakes the model into an image layer. It is 3.3MB, it never
     # changes, and having it already present makes cold starts predictable.
     .add_local_file(HERE / "models" / "yolov8n_int8.onnx", MODEL_REMOTE_PATH, copy=True)
-    # The frontend deliberately does NOT use copy=True. Image layers are
-    # cached, and a cached layer survives edits to the files inside it, which
-    # silently ships a stale UI - a one-line CSS change was served from a
-    # layer built 3 minutes earlier and no amount of redeploying dislodged it.
-    # As a runtime mount it is content-addressed, so it is always current, and
-    # 45KB of static assets costs nothing at container start.
-    .add_local_dir(HERE / "frontend", ASSETS_REMOTE_PATH)
     .add_local_python_source("detector")
 )
 
@@ -63,8 +56,8 @@ app = modal.App(APP_NAME, image=image)
 def web():
     import onnxruntime as ort
     from fastapi import FastAPI, File, UploadFile
-    from fastapi.responses import JSONResponse
-    from fastapi.staticfiles import StaticFiles
+    from fastapi.middleware.cors import CORSMiddleware
+    from fastapi.responses import JSONResponse, RedirectResponse
 
     from detector import CLASS_NAMES, run_detection
 
@@ -77,6 +70,17 @@ def web():
     print("ONNX model loaded:", [i.name for i in session.get_inputs()])
 
     web_app = FastAPI(title="SAR Aircraft Detector")
+
+    # The UI lives on Vercel and this API lives on Modal, so every request
+    # from the page is cross-origin and the browser blocks it without these
+    # headers. The regex covers Vercel's preview deployments, which get a
+    # different subdomain on every push.
+    web_app.add_middleware(
+        CORSMiddleware,
+        allow_origin_regex=r"https://.*\.vercel\.app|http://localhost(:\d+)?",
+        allow_methods=["GET", "POST", "OPTIONS"],
+        allow_headers=["*"],
+    )
 
     @web_app.post("/detect")
     async def detect(image: UploadFile = File(...)):
@@ -102,8 +106,12 @@ def web():
     def health():
         return {"status": "ready", "classes": CLASS_NAMES}
 
-    # Serve index.html / style.css / app.js at the root path.
-    # Mounted last so it doesn't shadow the API routes above.
-    web_app.mount("/", StaticFiles(directory=ASSETS_REMOTE_PATH, html=True))
+    # The UI now lives on Vercel, served from a CDN so the page appears
+    # immediately instead of waiting out a container start. This app is a
+    # pure API; the redirect keeps older links to the modal.run address
+    # working rather than 404ing them.
+    @web_app.get("/")
+    def root():
+        return RedirectResponse(FRONTEND_URL, status_code=307)
 
     return web_app
